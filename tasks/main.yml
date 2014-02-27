@@ -1,0 +1,13 @@
+---
+- name: generate upstart scripts
+  sudo: true
+  template: >
+    src=upstart-{{ item.type }}.conf.j2
+    dest=/etc/init/{{ item.name }}.conf
+    owner=root
+    group=root
+    mode=0644
+  notify: 'restart {{ deploy_application_name }}'
+  with_items:
+    - { type: master,  name: '{{ deploy_application_name }}' }
+    - { type: worker,  name: '{{ deploy_application_name }}-worker' }

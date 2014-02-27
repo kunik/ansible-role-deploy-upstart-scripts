@@ -1,0 +1,17 @@
+{% if deploy_upstart_scripts.auto_start %}
+start on runlevel [2345]
+stop on runlevel [016]
+
+{% endif %}
+pre-start script
+  {% for val in deploy_upstart_scripts.param_values %}
+  start {{ deploy_application_name }}-worker {{ deploy_upstart_scripts.param_name }}={{ val }}
+  {% endfor %}
+end script
+
+post-stop script
+  for val in `initctl list | grep "^{{ deploy_application_name }}-worker" | grep "(" | awk '{print $2}' | tr -d ')' | tr -d '('`
+  do
+    stop {{ deploy_application_name }}-worker {{ deploy_upstart_scripts.param_name }}=$val
+  done
+end script

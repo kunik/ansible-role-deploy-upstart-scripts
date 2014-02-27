@@ -1,0 +1,6 @@
+deploy_upstart_scripts:
+  respawn_limit: '5 10'
+  command: 'node_modules/.bin/coffee index.coffee'
+  param_name: PORT
+  param_values:
+    - 8080

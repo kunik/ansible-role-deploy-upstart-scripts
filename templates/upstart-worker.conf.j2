@@ -11,7 +11,7 @@ env HOME=/home/{{ ansible_ssh_user }}
 
 chdir {{ deploy_release_dir }}
 {% if deploy_with_environment is defined %}
-exec direnv invoke . {{ deploy_upstart_scripts.command }} >> ./log/{{ deploy_application_name }}-${{ deploy_upstart_scripts.param_name }}.log 2>&1
+exec direnv exec . {{ deploy_upstart_scripts.command }} >> ./log/{{ deploy_application_name }}-${{ deploy_upstart_scripts.param_name }}.log 2>&1
 {% else %}
 exec {{ deploy_upstart_scripts.command }} >> ./log/{{ deploy_application_name }}-${{ deploy_upstart_scripts.param_name }}.log 2>&1
 {% endif %}

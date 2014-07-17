@@ -10,8 +10,20 @@ setgid {{ ansible_ssh_user }}
 env HOME=/home/{{ ansible_ssh_user }}
 
 chdir {{ deploy_release_dir }}
+
+script
+{% if deploy_pids_dir is defined %}
+  echo $$ > {{ deploy_pids_dir }}/{{ deploy_application_name }}-${{ deploy_upstart_scripts.param_name }}.pid
+{% endif %}
 {% if deploy_with_environment is defined %}
-exec direnv exec . {{ deploy_upstart_scripts.command }} >> ./log/{{ deploy_application_name }}-${{ deploy_upstart_scripts.param_name }}.log 2>&1
+  exec direnv exec . {{ deploy_upstart_scripts.command }} >> ./log/{{ deploy_application_name }}-${{ deploy_upstart_scripts.param_name }}.log 2>&1
 {% else %}
-exec {{ deploy_upstart_scripts.command }} >> ./log/{{ deploy_application_name }}-${{ deploy_upstart_scripts.param_name }}.log 2>&1
+  exec {{ deploy_upstart_scripts.command }} >> ./log/{{ deploy_application_name }}-${{ deploy_upstart_scripts.param_name }}.log 2>&1
+{% endif %}
+end script
+
+{% if deploy_pids_dir is defined %}
+pre-stop script
+  rm {{ deploy_pids_dir }}/{{ deploy_application_name }}-${{ deploy_upstart_scripts.param_name }}.pid
+end script
 {% endif %}

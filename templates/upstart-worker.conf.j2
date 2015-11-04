@@ -1,5 +1,7 @@
 instance ${{ deploy_upstart_scripts.param_name }}
 
+stop on stopping {{ deploy_application_name }}
+
 respawn
 respawn limit {{ deploy_upstart_scripts.respawn_limit }}
 

@@ -1,4 +1,4 @@
-- name: 'restart {{ deploy_application_name }}'
+- name: 'restart deploy_application_name'
   become: yes
   service: >
     name={{ deploy_application_name }}

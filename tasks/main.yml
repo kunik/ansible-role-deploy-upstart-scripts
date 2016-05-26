@@ -7,7 +7,7 @@
     owner=root
     group=root
     mode=0644
-  notify: 'restart {{ deploy_application_name }}'
+  notify: 'restart deploy_application_name'
   with_items:
     - { type: master,  name: '{{ deploy_application_name }}' }
     - { type: worker,  name: '{{ deploy_application_name }}-worker' }

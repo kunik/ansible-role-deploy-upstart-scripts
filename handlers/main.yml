@@ -1,5 +1,5 @@
 - name: 'restart {{ deploy_application_name }}'
-  sudo: true
+  become: yes
   service: >
     name={{ deploy_application_name }}
     state=restarted

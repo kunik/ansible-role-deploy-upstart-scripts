@@ -1,6 +1,6 @@
 ---
 - name: generate upstart scripts
-  sudo: true
+  become: yes
   template: >
     src=upstart-{{ item.type }}.conf.j2
     dest=/etc/init/{{ item.name }}.conf

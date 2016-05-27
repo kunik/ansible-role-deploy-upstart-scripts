@@ -1,4 +1,12 @@
 ---
+- name: make sure that pids dir exists
+  become: yes
+  file: >
+    path='{{ deploy_pids_dir }}'
+    state=directory
+    owner={{ ansible_ssh_user }}
+    group={{ ansible_ssh_user }}
+
 - name: generate upstart scripts
   become: yes
   template: >
